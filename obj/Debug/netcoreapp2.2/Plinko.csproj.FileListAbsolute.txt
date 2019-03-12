@@ -1,0 +1,11 @@
+/home/egolol/Desktop/Test/Plinko/bin/Debug/netcoreapp2.2/Plinko.deps.json
+/home/egolol/Desktop/Test/Plinko/bin/Debug/netcoreapp2.2/Plinko.runtimeconfig.json
+/home/egolol/Desktop/Test/Plinko/bin/Debug/netcoreapp2.2/Plinko.runtimeconfig.dev.json
+/home/egolol/Desktop/Test/Plinko/bin/Debug/netcoreapp2.2/Plinko.dll
+/home/egolol/Desktop/Test/Plinko/bin/Debug/netcoreapp2.2/Plinko.pdb
+/home/egolol/Desktop/Test/Plinko/obj/Debug/netcoreapp2.2/Plinko.csprojAssemblyReference.cache
+/home/egolol/Desktop/Test/Plinko/obj/Debug/netcoreapp2.2/Plinko.csproj.CoreCompileInputs.cache
+/home/egolol/Desktop/Test/Plinko/obj/Debug/netcoreapp2.2/Plinko.AssemblyInfoInputs.cache
+/home/egolol/Desktop/Test/Plinko/obj/Debug/netcoreapp2.2/Plinko.AssemblyInfo.cs
+/home/egolol/Desktop/Test/Plinko/obj/Debug/netcoreapp2.2/Plinko.dll
+/home/egolol/Desktop/Test/Plinko/obj/Debug/netcoreapp2.2/Plinko.pdb
