@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Plinko
 {
@@ -49,7 +50,7 @@ namespace Plinko
             Int32.TryParse(final, out _final);
             posicionesString= pijasFaltantes.Split(';');
 
-            if(posicionesString.Length > 3) //que no se exceda de 3 pijas
+            if(posicionesString.Length > 3) //que no se exceda de 3 pijas seleccionadas
             {
                 return false;
             }            
@@ -85,10 +86,7 @@ namespace Plinko
         }
 
         static void EscogerMejorLugar()
-        {
-            string mejorLugar= "";
-            double probabilidadPijaNormal= 0.5;
-            //double probPijaExterior = 1;
+        {          
             double mejorProb = 1;
             int[,] posicionPelota = new int[0,0];
             int inicioPruebaColumna =0;
@@ -111,51 +109,82 @@ namespace Plinko
 
             //deberia ser una distribucion binomial, pero como afectan las pijas sacadas?
             //podriamos hacer ciclos probando todas las regiones donde pueden entrar una pelota, pero creo se puede ahorrar tiempo usando solo los cercanos. 
+            int finalPruebaColumna=0;
 
             if(_final<(_tablero.Matriz.GetLength(1))/2){
                 inicioPruebaColumna = 0;
+                finalPruebaColumna = (int)Math.Floor((decimal)_tablero.Matriz.GetLength(1)/2);
             }
             else{
                 inicioPruebaColumna = (int)Math.Floor((decimal)_tablero.Matriz.GetLength(1)/2);
+                finalPruebaColumna = _tablero.Matriz.GetLength(1);
             }
 
             Dictionary<int,double> dict = new Dictionary<int,double>();
+            #region old
 
+            //Random rnd = new Random();
 
-            for (int i = 0; i < _tablero.Matriz.GetLength(0); i++)
-            {
-                Random rnd = new Random();
-                int holder = rnd.Next(0,10);
-                for (int j = inicioPruebaColumna; j < _tablero.Matriz.GetLength(1); j++)
-                {                  
-                    if(j==0){
-                        mejorProb = mejorProb;
-                        i++;
+            //ciclos de movimiento de pelota
+
+            // for (int i = 0; i < _tablero.Matriz.GetLength(0); i++)
+            // {                
+            //     int numeroRand = rnd.Next(0,10);
+            //     for (int j = inicioPruebaColumna; j < _tablero.Matriz.GetLength(1); j++)
+            //     {                  
+            //         if(j==0){
+            //             mejorProb = mejorProb;
+            //             i++;
+            //         }
+            //         if(j==1){
+            //             mejorProb=mejorProb * probabilidadPijaNormal;
+            //             i++;
+            //             if(5 >= numeroRand)
+            //             {
+            //                 j--;
+            //                 if (j<0){j=0;}
+            //             }
+            //             else
+            //             {
+            //                 j++;
+            //                 if(j>_tablero.Matriz.GetLength(1)){
+            //                     j=_tablero.Matriz.GetLength(1); // -1?
+            //                 }
+            //             }
+            //         }                    
+            //     } 
+            //     if(i==0){
+            //           dict.Add(i,mejorProb);
+            //     } 
+            // }
+            #endregion
+
+            //solo vamos a contar los lugares cercanos donde existe menor cantidad de pijas, nos vamos a ir todas las y por x
+            
+
+            for (int i = inicioPruebaColumna; i < finalPruebaColumna; i++)
+            {                  
+                for (int j = 0; j < _tablero.Matriz.GetLength(0); j++)
+                {
+                    if(j==0 && _tablero.Matriz[j,i] ==1){
+                        break;
                     }
-                    if(j==1){
-                        mejorProb=mejorProb * probabilidadPijaNormal;
-                        i++;
-                        if(5 >= holder)
-                        {
-                            j--;
-                            if (j<0){j=0;}
-                        }
-                        else
-                        {
-                            j++;
-                            if(j>_tablero.Matriz.GetLength(1)){
-                                j=_tablero.Matriz.GetLength(1); // -1?
-                            }
-                        }
+
+                    if (_tablero.Matriz[j,i] == 1)
+                    {
+                        mejorProb = mejorProb*0.5;
+                       
                     }                    
-                } 
-                if(i==0){
-                      dict.Add(i,mejorProb);
-                } 
+                }  
+                dict.TryAdd(i,mejorProb);     
+                mejorProb=1;         
             }
 
+            var min = dict.Max(x => x.Value);      
+            var resultadoKey = dict.Where(x => x.Value == min).Select(x =>x.Key).First();      
 
-            Console.WriteLine("{0}",mejorLugar);
+
+            Console.WriteLine("Esta es la mejor casilla: {0}",resultadoKey);
         }
     }
     public class Tablero
